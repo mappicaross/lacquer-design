@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Artboard</title>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(5, 3)" stroke="#29519B">
+            <path d="M14.4,7.2 C14.4,11.17647 7.2,18 7.2,18 C7.2,18 0,11.17647 0,7.2 C0,3.223548 3.223548,0 7.2,0 C11.17647,0 14.4,3.223548 14.4,7.2 Z" id="Path" stroke-width="2"></path>
+            <path d="M7.2,8.1 C7.69707,8.1 8.1,7.69707 8.1,7.2 C8.1,6.702948 7.69707,6.3 7.2,6.3 C6.70293,6.3 6.3,6.702948 6.3,7.2 C6.3,7.69707 6.70293,8.1 7.2,8.1 Z" id="Path" stroke-width="3" fill="#29519B" fill-rule="nonzero" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </g>
+</svg>
+
