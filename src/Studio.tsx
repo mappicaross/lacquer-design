@@ -177,7 +177,7 @@ export default function Studio() {
                   className="flex items-center gap-2 hover:text-white"
                 >
                   <EmailIcon className="h-4 w-4 text-white" />
-                  <span>studio@lacquer_design.com</span>
+                  <span>studio@lacquerdesign.com</span>
                 </a>
                 <a
                   href="https://instagram.com/lacquer_design"
