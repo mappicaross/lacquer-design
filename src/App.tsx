@@ -107,6 +107,7 @@ const HOMEPAGE_IMAGES = [
   '/images/homepage/h3.webp',
   '/images/homepage/h4.webp',
   '/images/homepage/h1.webp',
+  '/images/homepage/h6.webp',
   '/images/homepage/h2.webp',
   '/images/homepage/h5.webp',
 ]
