@@ -1,18 +1,119 @@
 import './App.css'
 
 import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { LacquerLogo } from './components/LacquerLogo'
 import { PinIcon, EmailIcon, InstaIcon } from './components/Icons'
+import { ProjectCard } from './components/ProjectCard'
+import { InProgressCard } from './components/InProgressCard'
+
+const IN_PROGRESS_PROJECTS = [
+  {
+    title: 'Abbington Lane',
+    imageSrc: '/images/progress-cards/progress-abbington.webp',
+    imageAlt: 'Abbington Lane project in progress',
+    description:
+      'A full-scale family renovation pairing classic Americana style with highly functional, kid-friendly spaces.',
+  },
+  {
+    title: 'Barlow Road',
+    secondary: 'NEW YORK',
+    imageSrc: '/images/progress-cards/progress-barlow.webp',
+    imageAlt: 'Barlow Road project in progress',
+    description:
+      'A living and dining room refresh highlighting refined traditional details, custom built-ins, and timeless, layered materials.',
+  },
+  {
+    title: 'Bayou Boulevard I',
+    imageSrc: '/images/progress-cards/progress-bayouI.webp',
+    imageAlt: 'Bayou Boulevard I project in progress',
+    description:
+      'A contemporary coastal new build with historic influences, designed to capture bayou views in downtown Pensacola.',
+  },
+  {
+    title: 'Bayou Boulevard II',
+    secondary: 'COMMERCIAL',
+    imageSrc: '/images/progress-cards/progress-bayouII.webp',
+    imageAlt: 'Bayou Boulevard II commercial project in progress',
+    description:
+      'A commercial refresh for a growing Pensacola law office, bringing a sophisticated residential sensibility to the workplace.',
+  },
+  {
+    title: 'Cove Road',
+    imageSrc: '/images/progress-cards/progress-cove.webp',
+    imageAlt: 'Cove Road project in progress',
+    description:
+      'A full-home contemporary renovation on Bayou Texar, reimagining interiors throughout to suit modern family living.',
+  },
+  {
+    title: 'Dunwoody Drive',
+    imageSrc: '/images/progress-cards/progress-dunwoody.webp',
+    imageAlt: 'Dunwoody Drive project in progress',
+    description:
+      'A playful, vibrant decorating project layering personality and color into a recently remodeled Cordova Park family home.',
+  },
+  {
+    title: 'Gadsden Street I',
+    imageSrc: '/images/progress-cards/progress-gadsden.webp',
+    imageAlt: 'Gadsden Street I project in progress',
+    description:
+      'A ground-up East Hill new build with a main residence and ADU designed for tailored, family-focused living.',
+  },
+  {
+    title: 'Gadsden Street II',
+    imageSrc: '/images/progress-cards/progress-gadsdenII.webp',
+    imageAlt: 'Gadsden Street II project in progress',
+    description:
+      'A Gadsden-area spec new build refined for broad appeal, with flexible layouts, upgraded kitchens and baths, and indoor–outdoor living potential.',
+  },
+  {
+    title: 'Mallory Street',
+    imageSrc: '/images/progress-cards/progress-mallory.webp',
+    imageAlt: 'Mallory Street project in progress',
+    description:
+      'A renovation of a historic East Hill family home overlooking Bayview Park, blending updated interiors with classic character.',
+  },
+  {
+    title: 'Menendez Drive',
+    imageSrc: '/images/progress-cards/progress-menendez.webp',
+    imageAlt: 'Menendez Drive project in progress',
+    description:
+      'A midcentury kitchen remodel for a bayou-front East Hill home, emphasizing thoughtful layout updates and cohesive material selections.',
+  },
+  {
+    title: 'Munro Road',
+    imageSrc: '/images/progress-cards/progress-munro.webp',
+    imageAlt: 'Munro Road project in progress',
+    description:
+      'A midcentury modern restyling of a classic ranch home, reworking layouts and kitchen design for contemporary family living.',
+  },
+  {
+    title: 'Semoran Circle',
+    imageSrc: '/images/progress-cards/progress-semoran.webp',
+    imageAlt: 'Semoran Circle project in progress',
+    description:
+      'A retro-leaning family renovation in Inverness, Pensacola, centered on a midcentury-inspired kitchen and playful, color-forward interiors.',
+  },
+  {
+    title: 'Tanglewood Drive',
+    imageSrc: '/images/progress-cards/progress-tanglewood.webp',
+    imageAlt: 'Tanglewood Drive project in progress',
+    description:
+      'A ground-up family new build on Bayou Texar, combining classic architectural details with expansive, view-focused living spaces.',
+  },
+]
 
 const HOMEPAGE_IMAGES = [
-  '/images/homepage/h1.webp',
-  '/images/homepage/h2.webp',
   '/images/homepage/h3.webp',
   '/images/homepage/h4.webp',
+  '/images/homepage/h1.webp',
+  '/images/homepage/h2.webp',
   '/images/homepage/h5.webp',
 ]
 
 function App() {
+  const navigate = useNavigate()
+  const location = useLocation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [navOpen, setNavOpen] = useState(false)
 
@@ -23,6 +124,18 @@ function App() {
 
     return () => window.clearInterval(interval)
   }, [])
+
+  // Smooth scroll to anchored sections when hash is present
+  useEffect(() => {
+    if (!location.hash) return
+    const targetId = location.hash.replace('#', '')
+    const section = document.getElementById(targetId)
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [location])
+
+  const showWhiteLogo = HOMEPAGE_IMAGES[currentIndex]?.includes('h3')
 
   return (
     <div className="min-h-screen bg-lacquer-bg text-lacquer-blue">
@@ -78,7 +191,7 @@ function App() {
             </button>
             <div
               className={`transition-colors duration-500 ${
-                currentIndex === 2 ? 'text-white' : 'text-lacquer-blue'
+                showWhiteLogo ? 'text-white' : 'text-lacquer-blue'
               }`}
             >
               <LacquerLogo
@@ -88,11 +201,26 @@ function App() {
             </div>
           </div>
 
-          {/* Hero heading content intentionally removed */}
+          {/* Subtle scroll cue to encourage exploring further down the page */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-10 z-30 flex justify-center">
+            <button
+              type="button"
+              onClick={() => navigate('/#about')}
+              className="pointer-events-auto inline-flex items-center gap-3 rounded-full bg-lacquer-blue px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white shadow-sm transition hover:bg-lacquer-blue/90"
+            >
+              <span>Scroll for more</span>
+              <span className="flex h-6 w-6 items-center justify-center text-base leading-none">
+                ↓
+              </span>
+            </button>
+          </div>
         </section>
 
         {/* Below-hero text block */}
-        <section className="bg-lacquer-bg px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24">
+        <section
+          id="about"
+          className="bg-lacquer-bg px-6 py-16 md:px-12 md:py-20 lg:px-20 lg:py-24"
+        >
           <div className="mx-auto max-w-[1414px]">
             <div className="w-full text-left md:w-2/3">
               <p className="text-[28px] font-medium leading-[61px] md:text-[42px]">
@@ -102,71 +230,89 @@ function App() {
                 design, we help clients shape homes that feel both elevated and
                 effortless to live in.
               </p>
-
-              <div className="mt-12 grid gap-6 md:grid-cols-3">
-                <button
-                  type="button"
-                  className="group flex flex-col justify-between rounded-2xl border border-lacquer-blue/10 bg-white/40 px-6 py-7 text-left shadow-sm transition hover:border-lacquer-blue/30 hover:bg-white"
-                >
-                  <span className="text-lg font-medium text-lacquer-blue">
-                    Projects
-                  </span>
-                  <p className="mt-3 text-sm text-lacquer-blue/70 opacity-0 transition duration-200 ease-out group-hover:opacity-100">
-                    A look at recent residential work, from historic cottages to
-                    new-build homes.
-                  </p>
-                </button>
-                <button
-                  type="button"
-                  className="group flex flex-col justify-between rounded-2xl border border-lacquer-blue/10 bg-white/40 px-6 py-7 text-left shadow-sm transition hover:border-lacquer-blue/30 hover:bg-white"
-                >
-                  <span className="text-lg font-medium text-lacquer-blue">
-                    Studio
-                  </span>
-                  <p className="mt-3 text-sm text-lacquer-blue/70 opacity-0 transition duration-200 ease-out group-hover:opacity-100">
-                    Learn more about our design philosophy, process, and the
-                    studio behind Lacquer.
-                  </p>
-                </button>
-                <button
-                  type="button"
-                  className="group flex flex-col justify-between rounded-2xl border border-lacquer-blue/10 bg-white/40 px-6 py-7 text-left shadow-sm transition hover:border-lacquer-blue/30 hover:bg-white"
-                >
-                  <span className="text-lg font-medium text-lacquer-blue">
-                    Contact
-                  </span>
-                  <p className="mt-3 text-sm text-lacquer-blue/70 opacity-0 transition duration-200 ease-out group-hover:opacity-100">
-                    Reach out to begin a project, request a consultation, or ask
-                    a question.
-                  </p>
-                </button>
-              </div>
-
-              <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-sm text-lacquer-blue/80">
-                <div className="flex items-center gap-3">
-                  <PinIcon className="h-6 w-6 text-lacquer-blue" />
-                  <span>Pensacola, Florida</span>
-                </div>
-                <a
-                  href="mailto:studio@lacquerdesign.com"
-                  className="flex items-center gap-3 hover:text-lacquer-blue"
-                >
-                  <EmailIcon className="h-6 w-6 text-lacquer-blue" />
-                  <span>studio@lacquerdesign.com</span>
-                </a>
-                <a
-                  href="https://instagram.com/lacquer_design"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 hover:text-lacquer-blue"
-                >
-                  <InstaIcon className="h-6 w-6 text-lacquer-blue" />
-                  <span>@lacquer_design</span>
-                </a>
-              </div>
             </div>
           </div>
         </section>
+
+        {/* Completed projects on homepage */}
+        <section
+          id="recent-projects"
+          className="bg-lacquer-bg px-6 pb-16 md:px-12 md:pb-20 lg:px-20 lg:pb-24"
+        >
+          <div className="mx-auto max-w-[1414px]">
+            <h2 className="text-sm font-medium uppercase tracking-[0.25em] text-lacquer-blue/80 md:text-base">
+              Recently Completed
+            </h2>
+
+            <div className="mt-6 space-y-6">
+              <ProjectCard
+                title="Cleveland Park"
+                secondary="Washington D.C."
+                description="A full-scale renovation of a classic Cleveland Park home, reimagining all four levels for modern family living while preserving its historic character."
+                imageSrc="/images/project-cards/dc-card.webp"
+                imageAlt="Cleveland Park project by Lacquer Design"
+              />
+
+              <ProjectCard
+                title="Perdido Key"
+                description="A Perdido Key beach house refresh featuring elevated coastal kitchens and baths with playful pattern, texture, and serene spa-like finishes."
+                imageSrc="/images/project-cards/perdido-card.webp"
+                imageAlt="Perdido Key project by Lacquer Design"
+                onViewGallery={() => navigate('/projects/perdido')}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* In-progress projects */}
+        <section className="bg-lacquer-bg px-6 pb-16 md:px-12 md:pb-20 lg:px-20 lg:pb-24">
+          <div className="mx-auto max-w-[1414px]">
+            <h2 className="text-sm font-medium uppercase tracking-[0.25em] text-lacquer-blue/80 md:text-base">
+              In Progress
+            </h2>
+
+            <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {IN_PROGRESS_PROJECTS.map((project) => (
+                <InProgressCard
+                  key={project.title}
+                  title={project.title}
+                  secondary={project.secondary}
+                  description={project.description}
+                  imageSrc={project.imageSrc}
+                  imageAlt={project.imageAlt}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Footer contact strip */}
+        <footer className="bg-lacquer-bg px-6 pb-16 md:px-12 md:pb-24 lg:px-20 lg:pb-28">
+          <div className="mx-auto max-w-[1414px]">
+            <div className="mt-4 flex flex-wrap gap-x-10 gap-y-4 text-sm text-lacquer-blue/80">
+              <div className="flex items-center gap-3">
+                <PinIcon className="h-6 w-6 text-lacquer-blue" />
+                <span>Pensacola, Florida</span>
+              </div>
+              <a
+                href="mailto:studio@lacquerdesign.com"
+                className="flex items-center gap-3 hover:text-lacquer-blue"
+              >
+                <EmailIcon className="h-6 w-6 text-lacquer-blue" />
+                <span>studio@lacquerdesign.com</span>
+              </a>
+              <a
+                href="https://instagram.com/lacquer_design"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-3 hover:text-lacquer-blue"
+              >
+                <InstaIcon className="h-6 w-6 text-lacquer-blue" />
+                <span>@lacquer_design</span>
+              </a>
+            </div>
+          </div>
+        </footer>
       </main>
 
       {/* Global fullscreen navigation with fade in/out */}
@@ -179,13 +325,34 @@ function App() {
           <div className="flex w-1/2 min-w-[320px] bg-lacquer-blue px-8 py-10 text-white md:px-16">
             <div className="relative flex h-full w-full">
               <nav className="absolute left-0 right-0 top-1/2 -translate-y-1/2 space-y-6 text-left md:space-y-8">
-                <button type="button" className="block text-[32px] font-medium md:text-[40px]">
+                <button
+                  type="button"
+                  className="block text-[32px] font-medium md:text-[40px]"
+                  onClick={() => {
+                    setNavOpen(false)
+                    navigate('/#recent-projects')
+                  }}
+                >
                   Projects
                 </button>
-                <button type="button" className="block text-[32px] font-medium md:text-[40px]">
+              <button
+                type="button"
+                className="block text-[32px] font-medium md:text-[40px]"
+                onClick={() => {
+                  setNavOpen(false)
+                  navigate('/studio')
+                }}
+              >
                   Studio
                 </button>
-                <button type="button" className="block text-[32px] font-medium md:text-[40px]">
+              <button
+                type="button"
+                className="block text-[32px] font-medium md:text-[40px]"
+                onClick={() => {
+                  setNavOpen(false)
+                  navigate('/contact')
+                }}
+              >
                   Contact
                 </button>
               </nav>
@@ -200,7 +367,7 @@ function App() {
                   className="flex items-center gap-2 hover:text-white"
                 >
                   <EmailIcon className="h-4 w-4 text-white" />
-                  <span>studio@lacquer_design.com</span>
+                  <span>studio@lacquerdesign.com</span>
                 </a>
                 <a
                   href="https://instagram.com/lacquer_design"
@@ -223,6 +390,7 @@ function App() {
           />
         </div>
       </div>
+
     </div>
   )
 }
