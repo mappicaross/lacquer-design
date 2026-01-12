@@ -251,6 +251,7 @@ function App() {
                 description="A full-scale renovation of a classic Cleveland Park home, reimagining all four levels for modern family living while preserving its historic character."
                 imageSrc="/images/project-cards/dc-card.webp"
                 imageAlt="Cleveland Park project by Lacquer Design"
+                onViewGallery={() => navigate('/projects/cleveland-park')}
               />
 
               <ProjectCard

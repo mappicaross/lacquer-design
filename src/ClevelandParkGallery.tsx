@@ -1,8 +1,8 @@
 import { HorizontalGallery } from './components/HorizontalGallery'
 import { GALLERIES } from './config/galleries'
 
-export default function PerdidoGallery() {
-  const gallery = GALLERIES.perdido
+export default function ClevelandParkGallery() {
+  const gallery = GALLERIES['cleveland-park']
   
   return (
     <HorizontalGallery
